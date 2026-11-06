@@ -26,8 +26,8 @@ import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.clip
-import androidx.compose.foundation.clipToBounds
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -314,7 +314,7 @@ private fun PhotoWorkspace(
                     modifier = Modifier.fillMaxSize()
                 )
                 Box(
-                    Modifier.fillMaxSize().pointerInput(draft.id, size) {
+                    Modifier.fillMaxSize().pointerInput(draft, size) {
                         detectTapGestures { tap ->
                             toUnitPoint(tap.x, tap.y, bounds)?.let(onTap)
                         }
