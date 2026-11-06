@@ -147,13 +147,17 @@ class RoomRepository(private val context: Context) {
                 require(oriented.length() in 1..MAX_IMAGE_BYTES) {
                     "The normalized photo is too large for the current handoff budget"
                 }
-                RoomDraft(
+                val accepted = RoomDraft(
                     id = id,
                     width = bitmap.width,
                     height = bitmap.height,
                     originalSha256 = sha256(source),
                     orientedSha256 = sha256(oriented)
                 )
+                // Commit the new active draft before exposing it to the activity.
+                // On failure, the prior draft and source remain available.
+                save(accepted)
+                accepted
             } finally {
                 bitmap.recycle()
             }
@@ -168,6 +172,7 @@ class RoomRepository(private val context: Context) {
         require(safeRoomId(draft.id))
         val file = File(File(roomRoot, draft.id), "oriented.jpg")
         require(file.isFile) { "The stored photo is missing" }
+        require(sha256(file) == draft.orientedSha256) { "Stored photo no longer matches the import" }
         val probe = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         BitmapFactory.decodeFile(file.path, probe)
         require(probe.outWidth > 0 && probe.outHeight > 0) {
