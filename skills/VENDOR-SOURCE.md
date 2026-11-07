@@ -1,7 +1,9 @@
-# Local skills snapshot
+# Local development skills snapshot
 
-Source repository: `GBIDEVELOPMENT/general-purpose`
+Source: GBIDEVELOPMENT/general-purpose, skills/ directory
 
-Pinned revision: `1cb880c97c6eac1a25abd9fb6659333b3e8b64c0` (2026-11-06)
+Verified source commit: `6efb69f279e98cb8dc5b8bad9ce4ccdc6363cfa4` (merged via https://github.com/GBIDEVELOPMENT/general-purpose/pull/663)
 
-These are local, independently usable copies. They are not synchronized automatically. Preserve relative supporting references and evaluate upstream changes before updating.
+Imported: 2026-11-06. The 149 canonical package files were transferred at that exact revision. Files under this directory are local and do not require reaching the original GitHub repository for internal navigation or operation. External Android references and source citations remain sources of optional evidence, not hidden local dependencies.
+
+See [PORTABILITY.md](PORTABILITY.md) for integrity checks and subsequent imports. Changes in Retrofit are independent until explicitly reconciled with upstream.
