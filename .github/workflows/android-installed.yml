@@ -38,8 +38,8 @@ jobs:
           script: |
             gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest --stacktrace
             adb install -r app/build/outputs/apk/debug/app-debug.apk
-            test "$(adb shell getprop ro.kernel.qemu | tr -d '\\r')" = "1"
-            test "$(adb shell pm clear dev.gamesbyian.retrofit | tr -d '\\r')" = "Success"
+            test "$(adb shell getprop ro.kernel.qemu | tr -d '\r')" = "1"
+            test "$(adb shell pm clear dev.gamesbyian.retrofit | tr -d '\r')" = "Success"
             python3 scripts/qualify-real-photo-picker.py --out app/build/reports/real-picker
             gradle --no-daemon :app:connectedDebugAndroidTest --stacktrace
       - name: Retain instrumented test reports
