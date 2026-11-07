@@ -32,6 +32,46 @@ class PhotoGeometryTest {
         }
     }
 
+    @Test fun orientedPortraitLandscapeAndSquareRoundTripWithoutViewportAssumptions() {
+        val viewports = listOf(320f to 700f, 412f to 892f, 960f to 540f, 600f to 600f)
+        val orientedSources = listOf(4000 to 3000, 3000 to 4000, 4000 to 4000, 8192 to 128)
+        val positions = listOf(
+            UnitPoint(0f, 0f),
+            UnitPoint(1f, 0f),
+            UnitPoint(0f, 1f),
+            UnitPoint(1f, 1f),
+            UnitPoint(0.13f, 0.79f),
+            UnitPoint(0.999f, 0.001f)
+        )
+        for ((vw, vh) in viewports) for ((sw, sh) in orientedSources) {
+            val fitted = fitPhoto(vw, vh, sw, sh)
+            assertTrue("fitted photo spills beyond view", fitted.left >= -0.01f &&
+                fitted.top >= -0.01f &&
+                fitted.left + fitted.width <= vw + 0.01f &&
+                fitted.top + fitted.height <= vh + 0.01f)
+            for (position in positions) {
+                val (x, y) = toViewPoint(position, fitted)
+                val returned = toUnitPoint(x, y, fitted)
+                    ?: throw AssertionError("Image corner or interior was rejected")
+                assertEquals(position.x, returned.x, 0.0001f)
+                assertEquals(position.y, returned.y, 0.0001f)
+            }
+            // Always outside the view or photo, independent of letterbox orientation.
+            assertNull(toUnitPoint(fitted.left - 1f, fitted.top, fitted))
+            assertNull(toUnitPoint(fitted.left, fitted.top - 1f, fitted))
+            assertNull(toUnitPoint(fitted.left + fitted.width + 1f, fitted.top, fitted))
+            assertNull(toUnitPoint(fitted.left, fitted.top + fitted.height + 1f, fitted))
+        }
+    }
+
+    @Test fun rejectNonfinitePointerCoordinatesEvenOnAnOtherwiseValidPhoto() {
+        val fitted = fitPhoto(412f, 892f, 4000, 3000)
+        listOf(Float.NaN, Float.POSITIVE_INFINITY, Float.NEGATIVE_INFINITY).forEach { value ->
+            assertNull(toUnitPoint(value, 300f, fitted))
+            assertNull(toUnitPoint(200f, value, fitted))
+        }
+    }
+
     @Test fun labelsRemainUniquePastAlphabet() {
         assertEquals("A", markerLabel(0))
         assertEquals("Z", markerLabel(25))
