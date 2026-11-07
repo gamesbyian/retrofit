@@ -2,8 +2,8 @@
 
 Source: GBIDEVELOPMENT/general-purpose, skills/ directory
 
-Verified source commit: `6efb69f279e98cb8dc5b8bad9ce4ccdc6363cfa4` (merged via https://github.com/GBIDEVELOPMENT/general-purpose/pull/663)
+Verified source commit: `a2adc080cfa2dd535460f952b099a71c6c7c87d2` (merged through https://github.com/GBIDEVELOPMENT/general-purpose/pull/664)
 
-Imported: 2026-11-06. The 149 canonical package files were transferred at that exact revision. Files under this directory are local and do not require reaching the original GitHub repository for internal navigation or operation. External Android references and source citations remain sources of optional evidence, not hidden local dependencies.
+Imported: 2026-11-06. The 167 canonical package files are copied locally with relative internal navigation, reference procedures, fixtures and tests; earlier 149-file snapshot was superseded. Canonical source access is not required at runtime. Historical external citations remain optional evidence. The installed package has an offline portability checker and an instruction-completeness *triage* tool, neither of which proves actual agent competence.
 
-See [PORTABILITY.md](PORTABILITY.md) for integrity checks and subsequent imports. Changes in Retrofit are independent until explicitly reconciled with upstream.
+See [PORTABILITY.md](PORTABILITY.md) and [Operational Completeness Audit](references/operational-completeness-audit.md). Local adaptations remain separate from upstream until deliberately reconciled.
