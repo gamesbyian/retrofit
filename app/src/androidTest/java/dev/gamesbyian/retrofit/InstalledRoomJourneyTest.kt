@@ -2,7 +2,9 @@ package dev.gamesbyian.retrofit
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.media.ExifInterface
 import android.net.Uri
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -34,6 +36,88 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class InstalledRoomJourneyTest {
     @get:Rule val composeRule = createEmptyComposeRule()
+
+    @Test fun exifQuarterAndHalfTurnsPreserveRawJpegAndOrientWorkingCanvas() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val repository = RoomRepository(context)
+        val width = 240
+        val height = 120
+        val red = Color.rgb(230, 25, 25)
+        val green = Color.rgb(25, 230, 25)
+        val blue = Color.rgb(25, 25, 230)
+        val yellow = Color.rgb(230, 230, 25)
+        // Source quadrant colors before EXIF metadata rotation:
+        // red green
+        // blue yellow
+        val orientations = listOf(
+            Triple(ExifInterface.ORIENTATION_ROTATE_90,
+                listOf(blue, red, yellow, green), true),
+            Triple(ExifInterface.ORIENTATION_ROTATE_180,
+                listOf(yellow, blue, green, red), false),
+            Triple(ExifInterface.ORIENTATION_ROTATE_270,
+                listOf(green, yellow, red, blue), true)
+        )
+        for ((orientation, corners, quarterTurn) in orientations) {
+            val raw = File(context.cacheDir, "retrofit-exif-${orientation}.jpg")
+            val source = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            try {
+                for (y in 0 until height) for (x in 0 until width) {
+                    val color = if (y < height / 2) {
+                        if (x < width / 2) red else green
+                    } else {
+                        if (x < width / 2) blue else yellow
+                    }
+                    source.setPixel(x, y, color)
+                }
+                raw.outputStream().use { stream ->
+                    assertTrue(source.compress(Bitmap.CompressFormat.JPEG, 100, stream))
+                }
+                val exif = ExifInterface(raw.absolutePath)
+                exif.setAttribute(ExifInterface.TAG_ORIENTATION, orientation.toString())
+                exif.saveAttributes()
+                assertEquals(orientation, ExifInterface(raw.absolutePath).getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED
+                ))
+                val originalBytes = raw.readBytes()
+                val room = runBlocking { repository.importPhoto(Uri.fromFile(raw)) }
+                val normalizedWidth = if (quarterTurn) height else width
+                val normalizedHeight = if (quarterTurn) width else height
+                assertEquals(normalizedWidth, room.width)
+                assertEquals(normalizedHeight, room.height)
+                val roomFolder = File(context.filesDir, "rooms/${room.id}")
+                assertArrayEquals(originalBytes, File(roomFolder, "original.bin").readBytes())
+                val oriented = BitmapFactory.decodeFile(File(roomFolder, "oriented.jpg").path)
+                    ?: error("Oriented working photo did not decode")
+                try {
+                    assertEquals(normalizedWidth, oriented.width)
+                    assertEquals(normalizedHeight, oriented.height)
+                    val observed = listOf(
+                        oriented.getPixel(20, 20),
+                        oriented.getPixel(normalizedWidth - 20, 20),
+                        oriented.getPixel(20, normalizedHeight - 20),
+                        oriented.getPixel(normalizedWidth - 20, normalizedHeight - 20)
+                    )
+                    // JPEG source and oriented derivative are lossy, so assert
+                    // source quadrant identity by channel tolerance, not exact RGB.
+                    for (i in corners.indices) {
+                        val actual = observed[i]
+                        val expected = corners[i]
+                        assertTrue("EXIF ${orientation} corner ${i} red wrong",
+                            kotlin.math.abs(Color.red(actual) - Color.red(expected)) <= 45)
+                        assertTrue("EXIF ${orientation} corner ${i} green wrong",
+                            kotlin.math.abs(Color.green(actual) - Color.green(expected)) <= 45)
+                        assertTrue("EXIF ${orientation} corner ${i} blue wrong",
+                            kotlin.math.abs(Color.blue(actual) - Color.blue(expected)) <= 45)
+                    }
+                } finally {
+                    oriented.recycle()
+                }
+            } finally {
+                source.recycle()
+                raw.delete()
+            }
+        }
+    }
 
     @Test fun importedPhotoMarkerAndOriginalSurviveActivityRecreation() {
         val context = ApplicationProvider.getApplicationContext<Context>()
