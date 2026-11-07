@@ -14,6 +14,27 @@
 
 A green CI build is not E2; a chooser launch is not E3; a photorealistic result is not evidence of correct piping, safe clearances or system design.
 
+## Exploratory uncontrolled owner-image fidelity audit (2026-11-06)
+
+The two previously supplied independent *first-attempt* boiler proposals were checked against the same original. This is a **diagnostic observation**, not a head-to-head causal prompt evaluation and not a qualified edit-mask oracle. No images or customer-site photographs were added to the public repository.
+
+| Artifact (private owner upload) | Original pixel size | SHA-256 |
+| --- | --- | --- |
+| Original photograph (JPEG) | 1536 × 1023 | `ed8411cda133cfbeb55133b1d397a17e0d2ba7862330c1c59c2d55ee914354c1` |
+| First generated proposal (PNG) | 1536 × 1022 | `7cd8dbdb836f610ef933f7119367152b8be31d8790f76bcbcca4f04c3074bccf` |
+| Strict-prompt independent proposal (PNG) | 1536 × 1024 | `b4da0beb33f9d395a161c818748e403393a655085e77a67a2e9aa8d14800703f` |
+
+For a coarse exploratory calculation only: convert all to 8-bit RGB, bicubic-resize to 1536 × 1024, then compare visually *unmodified* fixed crops with scikit-image SSIM (Pillow 12.3.0, scikit-image 0.26.0). Coordinates below are `x_min,y_min,x_max,y_max` in the resized image, and the two SSIM values correspond to first / strict-prompt results:
+
+| Region | Crop | First / strict SSIM |
+| --- | --- | --- |
+| Central structural column | (690,245,754,906) | 0.977 / 0.979 |
+| Rear manifold | (780,370,935,560) | 0.740 / 0.814 |
+| Unmodified right-side floor | (830,850,1120,978) | 0.194 / 0.207 |
+| Controls at left wall | (150,400,220,600) | 0.735 / 0.742 |
+
+**Interpretation:** the column appearance survives rather well, while some seemingly untouched textures and details do not, consistent with regenerated image content outside the requested boiler replacement. The original/output dimensions differ; bicubic resizing, JPEG-vs-PNG decoding, slight registration shifts, selected crop boundaries and generative changes all affect these values. SSIM neither identifies *why* an edit drifted nor establishes engineering correctness. It does not prove that the strict prompt or wireframes improved results (different first-attempt agent contexts and no held-constant variables). The future **exact preservation** gate must use a registered, common oriented pixel canvas with deliberately composited unmasked regions and compare decoded pixels from that local output to its exact source pixel array, not these resized files.
+
 ## Source assets and fixture protocol
 
 1. **Preserve the provided original image** in app-private/project storage with SHA-256, oriented dimensions, verified source/provenance and explicit permission to reuse it in evaluations. Keep original unmarked image separate from faded, wireframe, equipment callout and generated result. Avoid adding unlicensed real client-site photos to the public repo.
