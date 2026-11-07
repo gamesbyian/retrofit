@@ -1,0 +1,68 @@
+# Retrofit discovery and prior-art research
+
+**Status:** evidence-backed discovery baseline, not a completed market survey or owner-approved feature expansion. **Date:** 2026-11-06. **Repository snapshot:** main `ec912512951f731338605ce3e3e0a051ba80cb5f`; prototype in draft [PR #2](https://github.com/gamesbyian/retrofit/pull/2) at `5c2ca116f9f1b346e20af73d37ffb97b3183e867`. [AYA PR #151](https://github.com/gamesbyian/AYA/pull/151) is open, not integrated. Source links below identify the researched claim; runtime capability, product pricing and license permission require separate verification.
+
+This document provides **research evidence and candidates**. [System blueprint](SYSTEM-BLUEPRINT.md) is the proposed specification; [readiness gates](DISCOVERY-GATES.md) maintain the pre-development decision state. The single authoritative execution issue is [#1](https://github.com/gamesbyian/retrofit/issues/1). The prototype's detailed contract remains in PR #2 until reconciled and merged.
+
+## User job and observed evidence
+
+Actor: a building-maintenance contract salesperson visiting mechanical/equipment rooms; possible users later include engineering colleagues and client stakeholders, but their workflows are *not yet observed*. Desired outcome: produce comprehensible, credible, before/after **concept** visuals showing specific HVAC/plumbing/electrical equipment changes, from a photograph, physical positions, manufacturer reference views, and free-text instructions.
+
+Owner-provided experiment: original photo -> faded/blurred photo -> one architectural wireframe with guessed occluded geometry -> a separate equipment wireframe with tentative labels -> two independent first-attempt boiler replacement visualizations (one shorter prompt, one strict preservation prompt). Results looked plausible, but unrelated text, small structural/environmental details and pipework changed. This does **not** establish metrically correct geometry, accurate make/model identification, pixel-localized editing, or a causal improvement from wireframes. Preserve the three exact owner prompts and the strict-prompt comparison in [Experiments](EXPERIMENTS-AND-QUALITY.md).
+
+Core owner decisions already recorded: Android-first; private original photographs; local photo annotations; catalog of multi-angle equipment references (target order-of-magnitude ~400 assets, hypothetical); choice of preferred AI agent via AYA rather than a Retrofit-owned assistant backend; explicit attachment review before external sharing; separate generated conceptual results, not engineering validation. Avoid inventing additional owner decisions about offline AI, multi-user access, cloud subscriptions or measured construction accuracy.
+
+## Competency questions (the research must answer)
+
+1. Can the salesperson move from site photograph to a reviewed, saveable, client-presentable proposal without CAD/BIM expertise, and recover after interruption?
+2. What existing solutions already cover photo markup, room/object inventory, catalog references, visual before/after and perspective-aware object placement? Which gaps are *actually* supported by evidence?
+3. Which geometry is visibly observed, inferred from one image, corroborated by other photos, calibrated or manually confirmed? How are these represented and corrected?
+4. Which sources legitimately permit storing, redistributing and *sending* product images/CAD/BIM materials to an AI service in a commercial proposal workflow?
+5. What information and bytes cross Retrofit -> AYA -> recipient -> user-selected return, and where can silent loss or reinterpretation occur?
+6. What are the smallest experiments that disprove an architectural assumption before expensive implementation?
+
+## Source-backed comparable products and transferable patterns
+
+| Product/system | Verified evidence from inspected first-party documentation | Transferable lesson | Still unknown / do not assume |
+| --- | --- | --- | --- |
+| Fieldwire | [Photo markup guide](https://help.fieldwire.com/hc/en-us/articles/360000217443-How-to-add-Markups-to-Photos-on-Mobile-and-Web) describes photo markup in task/plan/form context and Android drawing, arrows, measurements, text; platform/association behavior is nuanced. | Photo belongs to identifiable project/task context; edit markups independently; test actual Android access path. | Not evidence of a complete AI retrofit composition feature; exact UX and pricing not independently field-tested. |
+| magicplan | [Photos & notes](https://help.magicplan.app/add-information-and-photos-on-floor-level) associate imagery with project, floor, room, wall and object; [object detail](https://help.magicplan.app/add-details-to-your-project-floors-rooms-and-objects) carries attributes and dimensions. | Distinguish physical location hierarchy from photographic view; observations attach to objects. | Do not adopt compulsory floor-plan scanning, metrics or its cloud architecture without a compelling user need. |
+| OpenSpace | [BIM Compare](https://support.openspace.ai/hc/en-us/articles/48800452377747-Set-Up-BIM-Compare) compares model and capture with prerequisites including 360° capture. | Capture vs design is an established interaction pattern; dual-view review is useful. | Its capture prerequisites and BIM setup do not meet Retrofit's single-existing-photo goal by default. |
+| CupixWorks | [BIM Compare View](https://support.cupix.works/hc/en-us/articles/34897643980955-BIM-Compare-View) supports synchronized capture/model views; [BIM object overlay](https://support.cupix.works/hc/en-us/articles/34897678789275-Overlay-and-Transform-BIM-Objects-in-BIM-Compare-View) allows object position/orientation changes. Its [accuracy guidance](https://support.cupix.works/hc/en-us/articles/37858577184539-CupixWorks-Dimensional-Accuracy-Guidelines) explicitly documents alignment/measurement uncertainty. | Separate scene evidence from model assumptions; show camera-aware overlays and uncertainty. | No evidence that a single phone photograph can provide comparable measured 3D precision. |
+| Manufacturer product libraries | [Trane BIM/selection](https://www.trane.com/commercial/north-america/canada/en/support/resources/bim-and-selection-tools.html), [Weil-McLain BIM/Revit](https://www.weil-mclain.com/bim-revit-library/), [Navien boiler downloads](https://www.navieninc.com/professional/boilers/downloads), [Carrier configurator](https://www.carrier.com/us/en/commercial/software/revit-3d-templates/revit-configurator/) provide product documentation and/or CAD/BIM references. | Obtain dimensions, category taxonomy, named model variants and visual angles from authoritative sources when licensed. | A downloadable file is **not** automatically licensed for embedding, redistribution, model training or onward AI sharing. |
+| BIMobject and TraceParts | [BIMobject terms](https://business.bimobject.com/terms-of-service-eula) distinguish professional project inclusion from other redistribution and service-incorporation rights; [TraceParts API terms](https://developers.traceparts.com/docs/api-terms-of-use) restrict redistribution absent consent. | Store rights and source provenance per asset; negotiate permission or require user-supplied assets. | Avoid scraping or bundling into a 400-item app library without written authorization and clear permitted usage. |
+| Google MediaPipe | [Interactive Segmenter](https://developers.google.com/edge/mediapipe/solutions/vision/interactive_segmenter) exposes interactive point/brush selection and masks on Android. | Candidate for editable local object selections and replacement masks. | Test on boilers/pipes and target device; performance figures on another Pixel are not a Pixel 6 Pro result. |
+| Meta SAM 3/3.1 | [Repository](https://github.com/facebookresearch/sam3) supports text/visual prompt segmentation; [license](https://github.com/facebookresearch/sam3/blob/main/LICENSE) is a specialized SAM license. | Candidate comparison for multi-object masks, likely a separate workstation/server research path. | Android viability, deployment, rights and compute; cannot assume turnkey on-device operation. |
+| Depth Anything V2 | [Official repository](https://github.com/DepthAnything/Depth-Anything-V2) provides single-image relative depth; Small is Apache-2.0, Base/Large/Giant checkpoints are CC-BY-NC-4.0. | Possible *optional* occlusion prior. | A relative depth map is not survey-grade metric geometry; evaluate licensing per exact model. |
+| ARCore | [Depth API codelab](https://codelabs.developers.google.com/codelabs/arcore-depth) and [device matrix](https://developers.google.com/ar/devices/) document supported live capture and occlusion. | Possible later camera-time enhancement, with runtime feature detection. | Imported pictures have no accompanying ARCore depth; not an MVP dependency. |
+
+These are **documented capability overlaps**, not a claim that any competitor fully replaces Retrofit. Counterexample search should explicitly include photo-based renovation visualizers, building-services proposal platforms, facilities CMMS photo surveys, HVAC selection tools, BIM viewers, AI inpainting editors and open-source photo annotation.
+
+## Research coverage / missing evidence
+
+**Read:** owner experiment and requirements; live Retrofit main and PR #2; AYA v1 packet contract and PR #151 metadata; the linked product/platform pages. **Not yet observed:** direct interviews or shadowing of the salesperson; actual customer proposal samples; independent competitor installations; paid-tier capabilities, pricing and data handling; a legally usable multi-angle equipment corpus; real target-device performance; blind controlled prompt runs; third-party assistants' real attachment consumption; live camera geometry.
+
+Deliberately avoid novelty claims such as "no one does this" from this coverage. A future reverse-audit should search at least two adjacent markets (e.g. construction capture and interior virtual staging), inspect alternative terms in original user testimony, and distinguish missing retrieval from genuinely absent capability.
+
+## Primary job map (hypotheses to validate in field)
+
+1. **Capture:** choose or photograph room; optionally collect wide view, equipment nameplate and side angle. Risk: client privacy, EXIF, poor light, occlusion, mismatched views.
+2. **Orient:** confirm image and room identity; annotate A/B/C, select equipment or region; preserve unmodified features; recover after navigation/relaunch.
+3. **Specify:** choose existing or replacement item and real references; associate precise operation, anchor, dimensions *if known*, text, and explicit limits.
+4. **Review:** inspect frozen outgoing photo, references, annotations and descriptions; explicitly authorize AYA/recipient transfer; cancel without losing draft.
+5. **Generate:** recipient may ignore attachments, misinterpret spatial constraints, produce a plausible but unfaithful image, or ask for clarification. Retrofit never claims recipient success from chooser launch.
+6. **Inspect:** user imports a result, compares image and marked change areas, flags unrelated drift, approves or rejects, and keeps original and provenance.
+7. **Present:** client sees an explicitly labelled conceptual before/after; the proposal must not masquerade as engineering approval.
+8. **Resume:** same project, source and identity survive restarts, provider failures, re-edits and revisions without silently overwriting approved work.
+
+### Field questions worth observing, not guessing
+
+How many room photos / equipment references are actually gathered; which device and connection are used; whether site labels may appear externally; who determines valid replacement model; whether same proposal needs multiple revisions or recipients; whether a full building/room hierarchy is useful; acceptable time from photo to share; what visual mistakes would break client trust. Record observation, not anecdotal consensus, and get permission before retaining real client-site images.
+
+## Candidate novelty, properly bounded
+
+Potential value is an **Android, local-first, low-friction composition of known primitives**: photo-markup + catalog-backed replacement intents + editable geometry masks/scene hints + user-chosen AI handoff + before/after provenance. This is a proposed *integration advantage*, neither a verified market gap nor a new segmentation/depth algorithm.
+
+## Research saturation rule
+
+Stop expanding the survey when three to six competency questions are answerable with corroborated sources, a second search round finds no decision-reversing alternatives, major license/transport dependencies are identified, and remaining questions have cheap explicit experiments or owner field observations. Do not equate "more links" with completed discovery. Keep conflicts, platform/version specificity and negative evidence visible.
