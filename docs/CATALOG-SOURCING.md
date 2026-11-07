@@ -112,7 +112,11 @@ Do not allow a null media hash as a *selected shareable reference*; null above m
 - Keep a "generic illustrative equipment" fallback with clear warning; never fabricate exact branded reference photos or quietly switch vendors.
 - Generated outcomes may resemble a product but cannot certify electrical/thermal capacities, connection positions or manufacturer compliance.
 
-## First five-asset sourcing experiment (not yet executed)
+## First five-asset sourcing experiment (source survey completed; media/rights trial not executed)
+
+The [five-model manufacturer scout](CATALOG-FIVE-MODEL-SCOUT.md) has identified exact candidate references across **Viessmann CU3A-94 boiler, Amtrol SX-30V hydronic expansion tank, HTP SSU-EVO-45N indirect heater, historical Trane Precedent T/YSC036E, and Johnson Controls MS-FAC3611-0 controller**. It includes dated first-party sources, hard variant/lifecycle ambiguities, rights and visual-view coverage, and a disposable authorized-reference pilot. No source media or manufacturer grant has been acquired.
+
+**Important discovered constraints:** Amtrol's 1999 and 2024 SX-30V height claims conflict; the older HTP SSU-45 family is explicitly discontinued, distinct from SSU-EVO-45N; Trane's current YSK/WHK lines cannot silently inherit the old YSC036E dimensions. Therefore a catalog must track **document revision, model generation, exact configuration, applicable geometry and conflict status**. Each visual reference must independently track rights for private storage, app redistribution, derivative renders, proposal output and third-party AI transfer. This is provisional design, not authorization to create a new database yet.
 
 For each sample category, locate **one** exact product with at least two permitted reference views or record absent, official dimensions and variation, and explicit permissions to store and transfer those images through chosen AI recipient. Track cost, process, legal status, view coverage and whether source is a CAD model, marketing photograph, true field capture or user-owned image. If manufacturer sources don't grant rights, trial direct written authorization or user-imported images; do not use this study to scrape or copy samples into public GitHub.
 
