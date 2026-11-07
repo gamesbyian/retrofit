@@ -20,6 +20,7 @@ The repository's next priority is **comprehensive project/market/technology disc
 - [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.
 - [Five-model manufacturer-source scout](docs/CATALOG-FIVE-MODEL-SCOUT.md): specific equipment sources, model-generation/dimension conflicts, view and license blockers, reusable sourcing alternatives.
 - [One-job field-sales observation protocol](docs/FIELD-WORKFLOW-PROTOCOL.md): brief privacy-respecting process to replace user-workflow assumptions with evidence.
+- [Executed synthetic pixel-locality experiment](docs/PIXEL-LOCALITY-SPIKE.md): repeatable local exact-pixel preservation outside a reviewed mask, with falsifiers and explicit registration/AI limits.
 - [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
 - [Discovery readiness gates](docs/DISCOVERY-GATES.md): explicit research decisions and entry criteria before broad implementation.
 - [Single execution issue #1](https://github.com/gamesbyian/retrofit/issues/1): current priorities/evidence and implementation tracking.

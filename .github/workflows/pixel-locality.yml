@@ -1,0 +1,46 @@
+name: Retrofit deterministic locality experiment
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/pixel_locality/**'
+      - 'tests/test_preserve.py'
+      - '.github/workflows/pixel-locality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pixel-locality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned dependency
+        run: python -m pip install -r experiments/pixel_locality/requirements.txt
+      - name: Unit and negative-control tests
+        run: python -m unittest discover -s tests -p test_preserve.py -v
+      - name: Generate synthetic drift/control receipt
+        run: |
+          python experiments/pixel_locality/demo.py --out-dir build/locality
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('build/locality/locality-report.json').read_text())
+          assert p['status'] == 'PASS' and p['drifted_protected_pixels_before'] > 0
+          assert p['drifted_protected_pixels_after'] == 0
+          assert p['protected_pixels'] > 0 and p['allowed_pixels'] > 0
+          assert p['real_model_edit_executed'] is False
+          PY
+      - name: Retain generated synthetic fixtures and verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: retrofit-locality-synthetic-proof
+          path: build/locality/
+          if-no-files-found: warn
+          retention-days: 7
