@@ -201,6 +201,93 @@ def confirm_if_needed() -> None:
     wait_ui(app_has_photo)
 
 
+def instructions_field(root: ET.Element) -> ET.Element:
+    fields = [
+        n for n in root.iter("node")
+        if n.attrib.get("package") == APP
+        and n.attrib.get("class") == "android.widget.EditText"
+        and n.attrib.get("clickable") == "true"
+    ]
+    if len(fields) != 1:
+        raise RuntimeError(
+            "Expected exactly one Overall instructions edit field without markers; found " +
+            str(len(fields))
+        )
+    labels = [n.attrib.get("text") for n in fields[0].iter("node")]
+    if "Overall instructions" not in labels:
+        raise RuntimeError("Cannot verify the unique field is Overall instructions")
+    return fields[0]
+
+
+def test_process_death(out: Path, initial: dict, original: bytes,
+                       oriented: bytes, original_path: str, oriented_path: str):
+    # First establish a *durably witnessed* user edit. An external UI action
+    # followed by a process kill is not itself proof that input was saved.
+    committed = "RetrofitCrashBaseline29"
+    root, _ = wait_ui(app_has_photo)
+    tap(instructions_field(root))
+    adb("shell", "input", "text", committed)
+    deadline = time.monotonic() + 20
+    persisted = None
+    while time.monotonic() < deadline:
+        try:
+            found = read_json("active-room.json", timeout=1.0)
+            if found.get("instructions") == committed:
+                persisted = found
+                break
+        except RuntimeError:
+            pass
+        time.sleep(0.25)
+    if persisted is None:
+        raise RuntimeError("Typed instructions were never durably saved")
+    if persisted["id"] != initial["id"]:
+        raise RuntimeError("Text edit switched room identity")
+
+    adb("shell", "am", "force-stop", APP)
+    adb("shell", "am", "start", "-n", MAIN)
+    wait_ui(app_has_photo)
+    assert read_json("active-room.json") == persisted, "Completed edit lost after process death"
+    assert private(original_path) == original
+    assert private(oriented_path) == oriented
+    screenshot(out / "04-committed-edit-survived-process-kill.png")
+
+    # Intentional race: deliver a second text edit and force-stop *without*
+    # waiting for an autosave. Atomic persistence is allowed to retain the
+    # prior committed text, all newer text, or an earlier complete keystroke
+    # prefix; it must never leave malformed JSON or damage source bytes.
+    suffix = "EmergencyKillProof37"
+    root, _ = wait_ui(app_has_photo)
+    tap(instructions_field(root))
+    adb("shell", "sh", "-c",
+        "input text " + suffix + "; am force-stop " + APP)
+    crashed = read_json("active-room.json")
+    after_text = crashed.get("instructions", "")
+    if not after_text.startswith(committed):
+        raise RuntimeError("Process death lost a previously committed edit")
+    extra = after_text[len(committed):]
+    if not suffix.startswith(extra):
+        raise RuntimeError("Recovered text is inconsistent with the one rapid edit")
+    for key in ("id", "originalSha256", "orientedSha256", "width", "height",
+                "markers", "nextLabelIndex"):
+        if crashed[key] != initial[key]:
+            raise RuntimeError("Process death changed unrelated persisted state: " + key)
+    assert private(original_path) == original, "Original corrupted by abrupt kill"
+    assert private(oriented_path) == oriented, "Oriented derivative corrupted by abrupt kill"
+
+    adb("shell", "am", "start", "-n", MAIN)
+    wait_ui(app_has_photo)
+    assert read_json("active-room.json") == crashed, "Recovered JSON changed on reopening"
+    screenshot(out / "05-abrupt-kill-recovery.png")
+    return {
+        "committedEditSurvivedProcessDeath": True,
+        "abruptKillJSONValidAndIdentityPreserved": True,
+        "abruptKillSourceBytesPreserved": True,
+        "rapidEditCharactersDurablyObserved": len(extra),
+        "rapidEditCharactersAttempted": len(suffix),
+        "rapidEditDurabilityGuaranteeClaimed": False,
+    }
+
+
 def screenshot(path: Path):
     path.write_bytes(adb("exec-out", "screencap", "-p", binary=True))
 
@@ -282,7 +369,12 @@ def main(out: Path):
     assert private(oriented_path) == oriented, "Offline oriented derivative changed"
     screenshot(out / "03-source-deleted-restarted.png")
 
+    process_death = test_process_death(
+        out, draft, original, oriented, original_path, oriented_path
+    )
+
     proof = {
+        **process_death,
         "status": "PASS",
         "nativePickerPackages": packages,
         "sourceSHA256": sha,
