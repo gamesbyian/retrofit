@@ -28,7 +28,7 @@ python experiments/aya_packet/generate_packet.py --out-dir build/aya-packet
 python aya-protocol/tools/validate_spatial_composition.py build/aya-packet/manifest.json
 ```
 
-Local tests prior to PR: **6 tests passed**, generated **5** synthetic PNG attachments totalling **4,971 bytes**, and the local host byte-integrity verifier reported no errors. **AYA canonical structural validation has not been run locally**; the independent CI job must establish it. Negative structural conflict is not inferred to pass before CI.
+Local tests prior to PR: **6 tests passed**, generated **5** synthetic PNG attachments totalling **4,971 bytes**, and the local host byte-integrity verifier reported no errors. **Canonical AYA structural validation passed independently in [GitHub run 42338039789](https://github.com/gamesbyian/retrofit/actions/runs/42338039789) at PR #12 commit `f0945c50e058631e79c13b3ab6638f8fa0f287a9`**. Six host tests passed, real five-file packet passed upstream validator at pinned `cdb43b45f`; the deliberate protected-target/replace conflict was correctly rejected (`INVALID: operations[1]: protected target cannot be changed`). AYA's structural validator explicitly does **not** verify bytes or permissions; those were separately checked by the host test. Negative structural conflict is not inferred to pass before CI.
 
 ## Boundary map for a real Android host
 
