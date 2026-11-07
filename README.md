@@ -15,6 +15,7 @@ The intended user journey is photograph -> mark objects/locations -> choose veri
 The repository's next priority is **comprehensive project/market/technology discovery and a coherent specification before broad substantial coding**. Small bounded prototypes and tests may continue to resolve architectural questions.
 
 - [Discovery research and prior art](docs/DISCOVERY-RESEARCH.md): comparable products, source evidence, unknowns, catalog rights.
+- [G2 field-photo interaction comparison](docs/G2-FIELD-PHOTO-WORKFLOWS.md): contractor photo-first, task-first, room-first, product-design and asset-first patterns, with current limits and tests.
 - [Proposed system blueprint](docs/SYSTEM-BLUEPRINT.md): screens, journeys, spatial concepts, source/reference identity, AYA boundary and modules.
 - [Concrete Android interaction specification](docs/UX-INTERACTIONS.md): screen layouts, explicit placement modes, error states and accessibility.
 - [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.
