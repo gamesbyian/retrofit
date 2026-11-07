@@ -54,7 +54,7 @@ Deterministic synthetic 512 × 320 RGB demonstration:
 
 These numbers describe a **synthetic** fixed input, not model performance. Source hash and output hash differ, as they should: changes *inside* the mask remain in the output.
 
-**Evidence tiers:** E1 local deterministic test **executed**. GitHub CI is a separate independent repeatability gate until it passes; Android implementation E2, third-party ingestion E3/E4 and human fidelity review E5 are **not run for this component**.
+**Evidence tiers:** E1 local deterministic test **executed and independently repeated in GitHub Actions** at [run 42337186590](https://github.com/gamesbyian/retrofit/actions/runs/42337186590), PR #10 head `a9e1f4fd39de4b182c957c34bc5843a44cc8abc9`: **7 tests passed**, synthetic output matched 154,930 protected pixels after deliberately changing all of them in the candidate, and the generated artifact was retained. Android implementation E2, third-party ingestion E3/E4 and human fidelity review E5 are **not run for this component**.
 
 ## Why this does and does not solve Retrofit's problem
 
