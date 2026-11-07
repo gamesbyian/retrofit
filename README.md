@@ -19,6 +19,7 @@ The repository's next priority is **comprehensive project/market/technology disc
 - [Concrete Android interaction specification](docs/UX-INTERACTIONS.md): screen layouts, explicit placement modes, error states and accessibility.\n- [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.\n- [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
 - [Discovery readiness gates](docs/DISCOVERY-GATES.md): explicit research decisions and entry criteria before broad implementation.
 - [Single execution issue #1](https://github.com/gamesbyian/retrofit/issues/1): current priorities/evidence and implementation tracking.
-- [Agent instructions](AGENTS.md), [local skills architecture](skills/CAPABILITY-ARCHITECTURE.md), and [Android skill](skills/android-app-development/SKILL.md).
+- [Agent instructions](AGENTS.md), [local skills architecture](skills/CAPABILITY-ARCHITECTURE.md), [Project Inception](skills/project-inception/SKILL.md), and [Android skill](skills/android-app-development/SKILL.md).
+- [Portable skills installation and verification](skills/PORTABILITY.md): 149 locally copied source files with relative links and supporting examples/scripts, independently versioned from the canonical library.
 
 All discovery documents distinguish observed evidence from proposed or experimental features. No client-site photograph should be shared externally without a specific reviewed authorization.
