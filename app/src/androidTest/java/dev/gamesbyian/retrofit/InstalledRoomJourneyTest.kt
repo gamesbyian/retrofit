@@ -75,6 +75,9 @@ class InstalledRoomJourneyTest {
                         runBlocking { RoomRepository(context).load()?.markers?.size == 1 }
                     }.getOrDefault(false)
                 }
+                composeRule.waitUntil(timeoutMillis = 15_000) {
+                    composeRule.onAllNodesWithText("Saved locally").fetchSemanticsNodes().isNotEmpty()
+                }
                 scenario.recreate()
                 composeRule.waitUntil(timeoutMillis = 15_000) {
                     composeRule.onAllNodesWithText("A · modify").fetchSemanticsNodes().isNotEmpty()
