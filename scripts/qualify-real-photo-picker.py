@@ -187,17 +187,8 @@ def main(out: Path):
     out.mkdir(parents=True, exist_ok=True)
     assert adb("shell", "getprop", "ro.kernel.qemu") == "1", "REFUSE physical hardware"
 
-    # This whole test requires a clean disposable AVD; never erase user app data.
-    if adb("shell", "run-as", APP, "ls", "files/active-room.json", check=False).find(
-            "No such file") == -1:
-        # A missing file can be reported in stdout or stderr on different Android releases.
-        try:
-            private("active-room.json")
-        except RuntimeError:
-            pass
-        else:
-            raise RuntimeError("Refusing test: an active room already exists")
-
+    # CI clears this disposable emulator first; the debug Activity independently
+    # refuses to publish a fixture when active-room.json exists.
     adb("shell", "am", "start", "-n", FIXTURE)
     record = read_json("retrofit-picker-fixture.json")
     assert record.get("status") == "READY" and record.get("emulatorOnly") is True, record
