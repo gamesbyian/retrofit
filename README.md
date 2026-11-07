@@ -23,6 +23,7 @@ The repository's next priority is **comprehensive project/market/technology disc
 - [One-job field-sales observation protocol](docs/FIELD-WORKFLOW-PROTOCOL.md): brief privacy-respecting process to replace user-workflow assumptions with evidence.
 - [G6 segmentation resource audit](docs/G6-SEGMENTATION-RESOURCE-AUDIT.md): compare native manual regions, OpenCV GrabCut and current/legacy MediaPipe APIs before any Android model dependency.
 - [Private-image registration and seam diagnostics](docs/G6-REGISTRATION-DIAGNOSTIC.md): source hashes and bounded metrics only; exact pixel preservation does not establish image alignment or seam quality.
+- [Android E2 native-pixel and EXIF results](docs/EXPERIMENTS-AND-QUALITY.md): independent API 28/35 tests for local opaque pixel protection and 90°/180°/270° photo orientation, separate from real client/image model fidelity.
 - [Executed synthetic pixel-locality experiment](docs/PIXEL-LOCALITY-SPIKE.md): repeatable local exact-pixel preservation outside a reviewed mask, with falsifiers and explicit registration/AI limits.
 - [Synthetic AYA v1 packet contract experiment](docs/AYA-PACKET-E1-PROOF.md): five fictional media attachments and independently checked hash/MIME/dimensions; canonical AYA structural test, distinct from actual delivery.
 - [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
