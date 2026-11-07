@@ -58,3 +58,41 @@ First positive oracle: from the actual installed activity choose an image, place
 - [AYA packet](https://github.com/gamesbyian/AYA/blob/main/docs/spatial/PACKET.md): coordinates, identity, attachment integrity, privacy, engineering disclaimers and manual return.
 
 No external user studies or claims about majority preferences are implied by this targeted prior-art review. Stop researching this first journey unless an observed usability problem changes the choice.
+
+## Scene survey and controlled photographic composition (owner experiments, 2026-11-06)
+
+**Observed, not yet implemented:** Owner supplied an original mechanical-room photograph, a substantially faded/mildly blurred derivative, an AI-generated black architectural wireframe over the faded room (including inferred hidden boundaries), an AI-generated equipment/large-object wireframe with tentative identification labels, and two independent first-attempt photorealistic boiler replacements. Both replacements were credible conceptual images. Neither demonstrated exact preservation: unrelated text/labels and minor room details could change, even with a long strict-preservation prompt. These are qualitative demonstrations, not a controlled claim that wireframes improve output, a verified equipment inventory, a measured 3D model, or tested Retrofit features.
+
+### Required future user workflow
+
+1. Keep the immutable original photograph authoritative. Build local adjustable fade/blur previews without changing original bytes; default blur/fade are presentation settings, never the source of truth for recognition.
+2. Provide independently toggleable **architectural survey**, **equipment survey**, and **user annotations/placement** overlays above the photograph. Show and edit in the same orientation-normalized pixel coordinate system as the source. Line geometry and labels must not be permanently baked into the source or treated as geometric proof merely because an image model drew them.
+3. Architectural survey may propose floor/wall/ceiling planes, structural columns/beams, perspective/occlusion constraints and hidden inferred boundaries. Each item needs stable ID, geometric representation, provenance (observed vs inferred vs manually confirmed), and editable correction; visually distinguish inference (e.g. dashed lines). Do not silently promote a guessed hidden wall, dimension or clearance to measured fact.
+4. Equipment survey may propose object masks/polygons/boxes, categories, visible markings, position, relationships and uncertain identity guesses. Keep **identification status** (observed / inferred / owner-confirmed / unknown) separate from equipment catalog identity. Do not invent manufacturer, model or trustworthy numerical confidence from an image. Owner can rename, split, merge, hide or correct detections before use.
+5. Support target operations (keep, add, replace, remove, move, clean, modify) tied to stable object IDs or free placement regions, with catalog asset references, intended floor/wall anchor, orientation and optionally calibrated dimensions. Preserve unchanged room context, explicit keep targets and occlusion ordering. Existing lettered A/B/C markers remain a lightweight first-class path; scene survey must not block the current P0 journey.
+6. Treat AI surveys as **optional, user-requested, reviewed external processing**, routed via approved AYA sharing where possible. No silent uploads or inference from the existence of reference files. If agent returns only a flattened picture, keep it as an *interpretive visual reference*, not editable structured geometry. Structured scene import requires a documented, validated schema plus manual correction. Do not assume the AYA v1 contract already supports round-trip scene geometry or auto-import; version any extension with AYA separately.
+7. Compose final handoffs with original oriented photo, only user-approved survey overlays and chosen catalog references, explicit target operations, and preservation constraints. If the receiving agent cannot accept all attachments, expose that limitation and allow explicit fallback; do not claim compliance merely because the prompt requests it.
+8. Present returned proposals as **Concept Visualization**. Revisions never overwrite source. Provide synchronized original/proposal inspection, including before/after slider and zoom when implemented; user explicitly imports/accepts output.
+
+### Composition and edit-boundary contract
+
+- Default scope: change only explicitly selected objects and necessary dependent connections, shadows/reflections and occlusions. All unrelated architecture, equipment, pipes, signage, lighting, textures and legible text are preservation targets.
+- Photographic original outranks interpretive wireframes wherever they disagree. Equipment reference images outrank guesses about selected replacement appearance; use generic, unbranded equipment if no verified model is supplied. No unsupported certification, dimension, piping compatibility or engineering claims.
+- Plain-language preservation constraints are **best-effort guidance**, not pixel-exact guarantees. For enforceable preservation, plan a user-editable region/mask and local compositing that copies untouched pixels directly from the immutable original. Masks must account for connections and realistic transition effects. Preserve, inspect and report the actual modification extent. Do not claim a mask capability until the image provider/adapter actually supports constrained edits and local composition passes tests.
+- Annotated/wireframe presentation overlays are not exported into a photorealistic final image unless explicitly requested. An agent may need them as separate input references, along with the unannotated source.
+
+### Prompt experiment protocol
+
+Retain these exact owner baseline prompts as experimental inputs (not guaranteed implementation instructions):
+
+1. “Please substantially fade and mildly blur this image”
+2. “Please generate a wireframe of this room's floor, walls and ceiling and support beam, even where they are obscured by equipment or objects, and overlay it in black onto the faded version of the image”
+3. “Please generate a wireframe of this room's equipment and large objects, with identification labels or guesses where needed, and overlay it in black, onto the faded version of the image”
+
+Compare **original-only**, **original + architectural survey**, and **original + both surveys** with the same renovation request, where practical across several fresh independent runs. Compare short versus strict-preservation prompts separately. Use identical source/reference assets, record provider/model, exact prompt, run count, available generation settings, output identity and any mask support. Blind-score localized change success, unrelated pixel/label drift, geometry/perspective, equipment fidelity, shadows/occlusion, and connection plausibility; note that pixels can change from global rendering even when an image looks convincing. Do not infer causality from the two already observed noncontrolled examples. Do not tailor experimental prompts retrospectively to errors unique to a prior output.
+
+### Sequencing and gates
+
+**Near term:** finish P0 photo/marker persistence and installed qualification in PR #2, then catalog + AYA v1 interoperable sharing. **Next:** deterministic fade/blur and layered annotation viewer; optional manual geometry/object markup with stable IDs and persistence. **Later experimental:** optional AI survey, schema-validated structured return, editable masks, region-constrained generation/local compositing and comparison UI. **Deferred:** accurate 3D reconstruction, camera calibration, measured clearances and engineering suitability checks. Introduce no mandatory AI-processing step to basic local annotation.
+
+Acceptance must include: original bytes unchanged; layer toggles/fade/blur do not move anchors; letterbox/pan/zoom/rotation remain consistent; owner can correct an uncertain equipment label and later reopen it; inferred walls are distinguishable; denied or incomplete sharing leaves draft intact; proposals are separate revisions; where local compositing is claimed, byte-identical unmasked pixels are verified against original in source-oriented pixel space. Provider acceptance and physical-device qualification remain separate gates.
