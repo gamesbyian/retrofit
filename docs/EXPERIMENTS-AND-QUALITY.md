@@ -41,6 +41,10 @@ A separate [G6 pixel-locality spike](PIXEL-LOCALITY-SPIKE.md) tests exact preser
 
 **Scope:** deterministic host-side Python E1, with an *assumed aligned* synthetic candidate. No actual image model, Android app, physical equipment, client photo, segmentation or human visual judgement was involved. A zero protected-pixel difference does not validate camera registration, material/lighting continuity, correct equipment, pipe connections or engineering feasibility. PNG output is required; unknown or visually wrong masks can preserve the wrong scene. The local L mask is not automatically a provider-compatible API mask. Treat result registration, mask review, shadow/connection allowances, feathering and Android-memory performance as distinct next tests.
 
+## Private owner-image registration and seam diagnostic (exploratory)
+
+The [G6 registration and seam investigation](G6-REGISTRATION-DIAGNOSTIC.md) has now compared the original owner-provided mechanical-room JPEG against two independent prior first-attempt PNG results *locally*. Each output has a different pixel height; neither is directly suitable for same-grid exact pixel compositing without explicit alignment. Sparse SIFT/RANSAC partial-affine matches gave median inlier residuals of **0.76 px / 0.61 px**, but an unapproved tight boiler-region boundary had exploratory per-channel mean differences of **25.2 / 17.4** (0..255). Exact copy outside that rectangle protected the original pixels, yet those numbers **do not prove seam quality or camera registration**. No owner image was added to the repo or shared with another provider. The reproducible synthetic registration test and privacy-preserving metrics-only script are separate from the measured private pilot.
+
 ## Source assets and fixture protocol
 
 1. **Preserve the provided original image** in app-private/project storage with SHA-256, oriented dimensions, verified source/provenance and explicit permission to reuse it in evaluations. Keep original unmarked image separate from faded, wireframe, equipment callout and generated result. Avoid adding unlicensed real client-site photos to the public repo.
