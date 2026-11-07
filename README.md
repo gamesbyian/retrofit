@@ -21,6 +21,7 @@ The repository's next priority is **comprehensive project/market/technology disc
 - [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.
 - [Five-model manufacturer-source scout](docs/CATALOG-FIVE-MODEL-SCOUT.md): specific equipment sources, model-generation/dimension conflicts, view and license blockers, reusable sourcing alternatives.
 - [One-job field-sales observation protocol](docs/FIELD-WORKFLOW-PROTOCOL.md): brief privacy-respecting process to replace user-workflow assumptions with evidence.
+- [Private-image registration and seam diagnostics](docs/G6-REGISTRATION-DIAGNOSTIC.md): source hashes and bounded metrics only; exact pixel preservation does not establish image alignment or seam quality.
 - [Executed synthetic pixel-locality experiment](docs/PIXEL-LOCALITY-SPIKE.md): repeatable local exact-pixel preservation outside a reviewed mask, with falsifiers and explicit registration/AI limits.
 - [Synthetic AYA v1 packet contract experiment](docs/AYA-PACKET-E1-PROOF.md): five fictional media attachments and independently checked hash/MIME/dimensions; canonical AYA structural test, distinct from actual delivery.
 - [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
