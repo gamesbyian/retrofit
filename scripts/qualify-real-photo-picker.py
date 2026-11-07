@@ -258,6 +258,7 @@ def test_process_death(out: Path, initial: dict, original: bytes,
     suffix = "EmergencyKillProof37"
     root, _ = wait_ui(app_has_photo)
     tap(instructions_field(root))
+    adb("shell", "input", "keyevent", "KEYCODE_MOVE_END")
     adb("shell", "sh", "-c",
         "input text " + suffix + "; am force-stop " + APP)
     crashed = read_json("active-room.json")
