@@ -119,6 +119,28 @@ def picker_nodes(root: ET.Element):
             if node.attrib.get("package") in PICKER_PACKAGES]
 
 
+def dismiss_optional_google_photos_promo(root: ET.Element) -> ET.Element:
+    # On API 35 a second Photo Picker launch may reveal an optional Google
+    # Photos account banner in place of the MediaStore tile. We explicitly
+    # dismiss *only* this verified system banner, never sign into an account.
+    promo = [n for n in picker_nodes(root)
+             if n.attrib.get("text") == "Choose Google Photos account"]
+    if not promo:
+        return root
+    controls = [n for n in picker_nodes(root)
+                if n.attrib.get("clickable") == "true"
+                and n.attrib.get("text") == "Dismiss"
+                and n.attrib.get("resource-id", "").endswith(":id/dismiss_button")]
+    if len(controls) != 1:
+        raise RuntimeError("Google Photos prompt is visible but safe Dismiss is not unique")
+    tap(controls[0])
+    fresh, _ = wait_ui(lambda r:
+        len(picker_nodes(r)) > 0 and
+        not any(n.attrib.get("text") == "Choose Google Photos account"
+                for n in picker_nodes(r)), timeout=15)
+    return fresh
+
+
 def select_single_photo(root: ET.Element):
     entries = picker_nodes(root)
     if not entries:
@@ -202,6 +224,7 @@ def main(out: Path):
                                     for n in r.iter("node")))
     tap(choose_photo(root))
     root, xml = wait_ui(lambda r: len(picker_nodes(r)) > 0)
+    root = dismiss_optional_google_photos_promo(root)
     (out / "01-real-system-picker.xml").write_text(xml)
     screenshot(out / "01-real-system-picker.png")
     packages = sorted({n.attrib.get("package") for n in picker_nodes(root)})
@@ -223,6 +246,8 @@ def main(out: Path):
     tap(choose_photo(root))
     root, xml = wait_ui(lambda r: len(picker_nodes(r)) > 0)
     (out / "01c-picker-reopened.xml").write_text(xml)
+    root = dismiss_optional_google_photos_promo(root)
+    screenshot(out / "01d-picker-after-account-banner-dismissal.png")
 
     select_single_photo(root)
     confirm_if_needed()
