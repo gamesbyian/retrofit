@@ -1,7 +1,23 @@
 # Retrofit agent instructions
 
-Develop the Android retrofit visualization app according to owner instructions and project contracts.
+Develop the Android retrofit visualization app according to owner instructions, current project contracts and real evidence. Do not confuse a successful AI-generated illustration with trustworthy scene geometry, successful attachment receipt or engineering feasibility.
 
-Consult [`skills/CAPABILITY-ARCHITECTURE.md`](skills/CAPABILITY-ARCHITECTURE.md) and the applicable local `skills/*/SKILL.md` before consequential development decisions; load relevant supporting references when required. Primary Android entrypoint: `skills/android-app-development/SKILL.md`. Skills are procedural aids, not blanket permission to modify, share user data or demand unnecessary validation.
+## Research-first authority and execution
 
-The skill materials are vendored from `GBIDEVELOPMENT/general-purpose` at commit `1cb880c97c6eac1a25abd9fb6659333b3e8b64c0`; updates must be deliberate. Keep user approval explicit for sharing photographs and equipment references with external agents.
+**Owner development preference (2026-11-06):** before broad substantial implementation, comprehensively reconstruct the user job, competing/adjacent products and mature capabilities, platform/API options, reuse/licensing opportunities, and a coherent full product architecture and interaction specification. Test the unknowns that could reverse expensive design decisions. This is not a prohibition on small contained fixes, prototype qualification or bounded feasibility experiments that acquire evidence.
+
+1. Start with **live** main, active PRs/issues, CI and the installed app's actual call path. Identify other agents and file ownership. The single authoritative execution issue is [#1](https://github.com/gamesbyian/retrofit/issues/1); do not invent a second autonomous priority queue.
+2. Read [discovery evidence](docs/DISCOVERY-RESEARCH.md), [proposed system blueprint](docs/SYSTEM-BLUEPRINT.md), [experiment protocol](docs/EXPERIMENTS-AND-QUALITY.md), and [readiness/decision gates](docs/DISCOVERY-GATES.md) only as needed for the task. These are proposed architecture and research evidence, **not** evidence that code ships. The product contract in draft [PR #2](https://github.com/gamesbyian/retrofit/pull/2) is still unmerged and must be reconciled on integration; avoid divergent normative specifications.
+3. Separate **owner-confirmed requirement**, **observed user/source behavior**, **third-party documentation**, **proposed design**, **implemented code**, and **independently verified result**. For source-backed proposals record alternatives, why they matter, the cheapest decisive observation and conditions for reversal. Never infer that absence from the research inventory proves novelty.
+4. Compare reuse first: Android platform APIs, AYA v1 transport and optional model libraries, manufacturer-authorized product content, and capable competing UX. Audit legal rights to store, distribute and transmit each real catalog image. Do not bundle scraped/catalog material solely because it is downloadable.
+5. Before expanding persistent schema, catalog ingestion, AI processing or remote transport, pass or explicitly bound the relevant [discovery gates](docs/DISCOVERY-GATES.md); keep no duplicate state owner. User approval is always explicit for external sharing, including experiments.
+6. Use the primary applicable local skill below for the actual task, adding only narrow dependent skills. Do not load every skill, make unnecessary blocking forms, or require a research committee for a routine fix. For each code slice, select independent evidence tiers: compiler/tests, installed Android, foreign receiver, actual assistant and field owner acceptance are distinct.
+7. Keep PRs small and evidence-aligned; record exact source/head SHA, which tests ran, what failed, what changed, what remains open and the next actionable work. Preserve PR #2 as a prototype until exact-head installation/recovery and review support merging.
+
+## Skills and migration
+
+Consult [skills/CAPABILITY-ARCHITECTURE.md](skills/CAPABILITY-ARCHITECTURE.md) to route to the relevant **local** `skills/*/SKILL.md`. The primary Android entrypoint is [Android App Development](skills/android-app-development/SKILL.md); for unfamiliar product scope, [Mechanised Expertise](skills/mechanised-expertise/SKILL.md) and [Concept Model Engineering](skills/concept-model-engineering/SKILL.md) can help, and [Engineering Judgment](skills/engineering-judgment/SKILL.md) resolves consequential alternatives. Skills are procedural aids, not authority to modify/share data or proof of working behavior.
+
+The copied skills originate from `GBIDEVELOPMENT/general-purpose` commit `1cb880c97c6eac1a25abd9fb6659333b3e8b64c0`; updates must be deliberate and keep local entrypoints functional without reliance on access to the source repo. References to historical projects are provenance/examples, not Retrofit prerequisites.
+
+Privacy: keep source/client-site photos private by default, disclose exact attachment inventory and recipient before AYA, never background-upload images. AI proposal outputs are labelled **Concept Visualization**, not validated engineering or installation plans.
