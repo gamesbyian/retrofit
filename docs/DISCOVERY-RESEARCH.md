@@ -21,6 +21,8 @@ Core owner decisions already recorded: Android-first; private original photograp
 5. What information and bytes cross Retrofit -> AYA -> recipient -> user-selected return, and where can silent loss or reinterpretation occur?
 6. What are the smallest experiments that disprove an architectural assumption before expensive implementation?
 
+The [G2 focused field-photo interaction comparison](G2-FIELD-PHOTO-WORKFLOWS.md) extends the initial source inventory with concrete photo-first vs task/plan-first vs room/object-first vs asset-first entry controls, save/undo/export behavior, Fieldwire offline sync-loss cautions, MaintainX source-sharing conditions, and a dated CompanyCam user orientation report. All are documentary or single-user report evidence, **not installed competitor tests or representative user preference data**.
+
 ## Source-backed comparable products and transferable patterns
 
 | Product/system | Verified evidence from inspected first-party documentation | Transferable lesson | Still unknown / do not assume |
