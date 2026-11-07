@@ -53,6 +53,7 @@ class PickerFixtureActivity : Activity() {
                 return
             }
 
+            require(!File(filesDir, "active-room.json").exists()) { "Refusing fixture: active room exists" }
             require(!receipt.exists()) { "Fixture already published; refusing duplicate MediaStore source" }
             val bitmap = Bitmap.createBitmap(240, 320, Bitmap.Config.ARGB_8888)
             val bytes = try {
