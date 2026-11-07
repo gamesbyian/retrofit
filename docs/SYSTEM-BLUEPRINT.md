@@ -12,7 +12,7 @@ Retrofit owns projects, local source/reference files, catalog selection, annotat
 
 | Capability | User-visible contract | Delivery status |
 | --- | --- | --- |
-| Photo/marker foundation | Import one existing image privately, label A/B/C, edit operations/text, zoom/pan, persist/restores source and draft | Draft in PR #2; CI passed, installed acceptance not established |
+| Photo/marker foundation | Import one existing image privately, label A/B/C, edit operations/text, zoom/pan, persist/restores source and draft | Draft PR #2, [API 28 and 35 installed smoke passes](https://github.com/gamesbyian/retrofit/actions/runs/42327983645) including API 35 picker/process-kill. Physical device, full UX/accessibility and AYA remain unverified |
 | Catalog-backed handoff | Find/choose real equipment and multi-angle references, review exact bytes/identities, share through verified AYA adapter | Planned after installed foundation; AYA PR #151 unmerged |
 | Revisions and comparison | Import user-selected result without changing original, distinguish revisions, inspect before/after | Required upcoming, not shipped |
 | Presentation layers | Local adjustable fade/blur, overlay visibility, text labels, hand-edited polygons/regions | Recommended next; no need for AI |
@@ -20,7 +20,9 @@ Retrofit owns projects, local source/reference files, catalog selection, annotat
 | Region editing | Editable masks/soft edges, tightly bounded compositing with identity and drift review | Experimental; provider mask capability must be proven |
 | True 3D/BIM | Calibrated camera, metric room model, registration across views, engineering tools | Deferred; separate evidence, cost and user need |
 
-Detailed proposed mobile interactions, modes, failure and screen-reader states are documented in [UX Interactions](UX-INTERACTIONS.md); the provenance-first source/catalog path is in [Catalog Sourcing](CATALOG-SOURCING.md).\n\n## Field journey and screen map
+Detailed proposed mobile interactions, modes, failure and screen-reader states are documented in [UX Interactions](UX-INTERACTIONS.md); the provenance-first source/catalog path is in [Catalog Sourcing](CATALOG-SOURCING.md) and the [five-model source qualification](CATALOG-FIVE-MODEL-SCOUT.md).
+
+## Field journey and screen map
 
 1. **Projects**: current/draft rooms and recent proposals, clear local status; first prototype may open directly into a single room. Later project list must not replace the current draft silently.
 2. **Capture/import**: Photo Picker, optionally camera after feasibility; show privacy notice where appropriate. Copy selected bytes to app-private storage before grant expiry. On cancellation/invalid import, leave draft unchanged.
@@ -56,7 +58,7 @@ Room 1 --- * FrozenHandoff[id, sourceRevisionHash, manifestHash, assetHashes,
 FrozenHandoff 1 --- * Proposal[id, bytesHash, importedAt, reviewState, resultNotes]
 ```
 
-The logical field `externalAIT ransfer?` above means rights to send the asset to an external AI recipient; choose a conventional code identifier such as `externalAiTransferAllowed` in implementation. Do not interpret unknown rights as permission. A project can contain multiple photos/views without declaring them spatially registered; cross-view links are explicitly tentative until calibrated or confirmed.
+The logical field `externalAiTransferAllowed?` is a proposed downstream source-specific authorization claim, **not** a grant inferred from a URL or downloadable CAD file. The manufacturer catalog scout also demonstrates that model identity requires family + exact variant + lifecycle period + source revision, with technical-claim provenance distinct from media-rights evidence; see [five-model source qualification](CATALOG-FIVE-MODEL-SCOUT.md). Do not silently choose one conflicting dimension or assume unknown rights permit bundling or AI transfer. A project can contain multiple photos/views without declaring them spatially registered; cross-view links are explicitly tentative until calibrated or confirmed.
 
 ### Provenance and geometry
 
@@ -64,7 +66,7 @@ The logical field `externalAIT ransfer?` above means rights to send the asset to
 - All 2D geometry uses the **oriented image's complete pixel rectangle**, normalized (x,y) in [0,1], (0,0) upper-left; independent of viewport, fit, pan/zoom, decoded thumbnail and blur. Points, rects, polygons and masks must share reproducible transforms. A 2D pixel address is not a world coordinate.
 - **Scene objects** have stable IDs and geometry (polygon/mask/bounds + optional occlusion order), semantic category/labels, source evidence, and independent `identificationStatus` (unknown, suggested, user-confirmed). Add `geometryStatus` (visible-observed, inferred-occluded, user-confirmed) and `measurementStatus` (none, approximate, calibrated/externally measured) separately. Use explicit unknown rather than invented numeric confidence.
 - Inferred room planes may have dashed lines; keep architecture and equipment overlays separable. A flattened AI wireframe is a **reference image**, not a trusted vector scene. Only import structured data after validating schema, source dimensions, object IDs, geometry bounds, relation consistency and user corrections.
-- A catalog model identity requires sourced manufacturer/model/variant and verified references. A visual resemblance does not establish a product SKU. Catalog dimensions have units, source and revision; do not assert that installation is viable from dimensions alone.
+- A catalog model identity requires sourced manufacturer/model/variant and verified references. A visual resemblance does not establish a product SKU. Catalog dimensions have units, **applicable product variant, document revision, physical envelope definition, evidence source and conflict status**. Historical and newer product generations may use related names but incompatible geometry. A vendor CAD/marketing view is not automatically a redistributable photo or AI-shareable reference. Do not assert installation viability from product envelope alone.
 - **ChangeIntent** references an existing object or designated free-placement region; supports desired `keep/add/replace/remove/move/clean/modify` in the *internal* roadmap. `keep` is usually preservation, not a mutation. See the AYA v1 operation limitation below.
 - Frozen handoffs reference exact source and selected reference file bytes, schema version and instruction text, never the live editable fields. Returned image is its own user-accepted proposal and cannot overwrite source.
 
