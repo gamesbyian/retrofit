@@ -41,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -61,6 +62,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -74,23 +76,34 @@ fun RetrofitScreen(repository: RoomRepository) {
     var message by remember { mutableStateOf<String?>(null) }
     var initialized by remember { mutableStateOf(false) }
     var photo by remember { mutableStateOf<ImageBitmap?>(null) }
+    var savedDraft by remember { mutableStateOf<RoomDraft?>(null) }
+    var saveError by remember { mutableStateOf<String?>(null) }
+    var retrySave by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         try {
-            draft = repository.load()
+            val restored = repository.load()
+            savedDraft = restored
+            draft = restored
         } catch (error: Exception) {
             message = "Saved draft could not be loaded: " + (error.message ?: "unknown error")
         } finally {
             initialized = true
         }
     }
-    LaunchedEffect(draft) {
+    LaunchedEffect(draft, retrySave) {
         val snapshot = draft ?: return@LaunchedEffect
+        if (savedDraft == snapshot) return@LaunchedEffect
+        saveError = null
         try {
             repository.save(snapshot)
+            savedDraft = snapshot
+        } catch (cancel: CancellationException) {
+            // Rapid edits cancel superseded saves; this is not a storage failure.
+            throw cancel
         } catch (error: Exception) {
-            message = "Changes could not be saved: " + (error.message ?: "storage error")
+            saveError = "Changes could not be saved: " + (error.message ?: "storage error")
         }
     }
     LaunchedEffect(draft?.id) {
@@ -109,7 +122,9 @@ fun RetrofitScreen(repository: RoomRepository) {
                 try {
                     val newDraft = repository.importPhoto(uri)
                     // Only replace the in-memory draft after the new source is fully accepted.
+                    savedDraft = newDraft
                     draft = newDraft
+                    saveError = null
                     selectedId = null
                     message = null
                 } catch (error: Exception) {
@@ -149,6 +164,28 @@ fun RetrofitScreen(repository: RoomRepository) {
                         Text("Choose an equipment-room photograph to begin a private local draft.")
                         Text("No photos or instructions are sent to an AI service in this version.")
                     } else {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            if (saveError == null) {
+                                Text(
+                                    if (savedDraft == room) "Saved locally" else "Saving…",
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            } else {
+                                Text(
+                                    "Not saved",
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                                TextButton(onClick = { retrySave++ }) { Text("Retry saving") }
+                            }
+                        }
+                        if (saveError != null) {
+                            Text(
+                                saveError.orEmpty(),
+                                color = MaterialTheme.colorScheme.error,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
                         Text(
                             "Tap the photo to add A, B, C…  Pinch to zoom. Select a marker to edit or move it.",
                             style = MaterialTheme.typography.bodySmall
