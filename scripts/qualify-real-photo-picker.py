@@ -205,6 +205,25 @@ def main(out: Path):
     (out / "01-real-system-picker.xml").write_text(xml)
     screenshot(out / "01-real-system-picker.png")
     packages = sorted({n.attrib.get("package") for n in picker_nodes(root)})
+
+    # Negative path: Back from the actual OS Photo Picker must not create a room
+    # or strand the user. Reopen the exact native picker after cancellation.
+    adb("shell", "input", "keyevent", "KEYCODE_BACK")
+    root, _ = wait_ui(lambda r: any(
+        n.attrib.get("text") == "Choose photo" for n in r.iter("node")
+    ))
+    assert not app_has_photo(root), "Cancel unexpectedly imported a photograph"
+    try:
+        read_json("active-room.json", timeout=1.5)
+    except RuntimeError:
+        pass
+    else:
+        raise RuntimeError("Native Photo Picker cancellation created an active room")
+    screenshot(out / "01b-picker-canceled-empty-room.png")
+    tap(choose_photo(root))
+    root, xml = wait_ui(lambda r: len(picker_nodes(r)) > 0)
+    (out / "01c-picker-reopened.xml").write_text(xml)
+
     select_single_photo(root)
     confirm_if_needed()
 
@@ -250,6 +269,8 @@ def main(out: Path):
         "noPersonalPhotosUsed": True,
         "emulatorOnly": True,
         "pickerGrantAndHostImportProven": True,
+        "nativePickerCancellationLeftRoomEmpty": True,
+        "pickerReopenedAfterCancellation": True,
         "activityMarkerGestureProvenHere": False,
         "physicalDeviceProven": False,
         "AYARecipientProven": False,
