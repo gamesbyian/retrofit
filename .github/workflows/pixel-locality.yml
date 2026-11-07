@@ -5,6 +5,7 @@ on:
     paths:
       - 'experiments/pixel_locality/**'
       - 'tests/test_preserve.py'
+      - 'tests/test_registration_diagnostic.py'
       - '.github/workflows/pixel-locality.yml'
   workflow_dispatch:
 
