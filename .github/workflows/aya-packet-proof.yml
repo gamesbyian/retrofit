@@ -1,0 +1,62 @@
+name: Retrofit synthetic AYA v1 packet contract
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/aya_packet/**'
+      - 'tests/test_aya_packet.py'
+      - '.github/workflows/aya-packet-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-packet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch pinned canonical AYA v1 validator (no vendored schema fork)
+        uses: actions/checkout@v4
+        with:
+          repository: gamesbyian/AYA
+          ref: cdb43b45f14541603947dc13e00666e5602fb298
+          path: aya-protocol
+          sparse-checkout: |
+            tools/validate_spatial_composition.py
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned image decoding for synthetic fixtures
+        run: python -m pip install -r experiments/pixel_locality/requirements.txt
+      - name: Host byte-integrity, geometry and dangerous-path tests
+        run: python -m unittest discover -s tests -p test_aya_packet.py -v
+      - name: Create fictional AYA packet and verify exact attachments
+        run: python experiments/aya_packet/generate_packet.py --out-dir build/aya-packet
+      - name: Validate v1 structure with actual AYA validator at pinned commit
+        run: python aya-protocol/tools/validate_spatial_composition.py build/aya-packet/manifest.json
+      - name: Verify canonical validator rejects protected-target conflict
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          src = Path("build/aya-packet/manifest.json")
+          bad = json.loads(src.read_text())
+          bad["constraints"]["protectedAnnotationIds"] = ["B"]
+          Path("build/invalid-aya-packet.json").write_text(json.dumps(bad))
+          PY
+          set +e
+          python aya-protocol/tools/validate_spatial_composition.py build/invalid-aya-packet.json
+          result=$?
+          set -e
+          test "$result" -eq 1
+      - name: Retain synthetic packet and independent test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: retrofit-aya-v1-synthetic-contract-proof
+          path: build/aya-packet/
+          if-no-files-found: warn
+          retention-days: 7
