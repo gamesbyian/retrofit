@@ -35,7 +35,7 @@
 
 - [`experiments/pixel_locality/registration_diagnostic.py`](../experiments/pixel_locality/registration_diagnostic.py) accepts source, candidate, operator-defined rectangle and an *explicit* `--diagnostic-resize` for exploratory size mismatch. It estimates only a partial affine transformation using outside-region SIFT keypoints, enforces feature/inlier thresholds, and reports counts, residuals and inner-boundary color mismatch. It **does not output images** or write descriptors; optional report is JSON measurements and SHA hashes.
 - [Synthetic positive and hostile tests](../tests/test_registration_diagnostic.py) exercise controlled translation, inadequate features, out-of-bounds mask, size mismatch and explicit diagnostic resizing. Pinned [OpenCV headless + Pillow](../experiments/pixel_locality/requirements.txt) used only for host research, not introduced into the Android APK.
-- [Pixel locality CI](../.github/workflows/pixel-locality.yml) runs this test alongside the original seven host compositing tests. Independent GitHub result is pending until the PR CI passes. Real private photos are not in CI.
+- [Pixel locality CI](../.github/workflows/pixel-locality.yml) runs this test alongside the original seven host compositing tests. Independent [GitHub run 42338916474](https://github.com/gamesbyian/retrofit/actions/runs/42338916474) **passed at source commit `6ded0e90c85fa2a40ff4950ba5f46fe8d3283956`**: the original 7 locality tests and 4 new registration negative/positive tests all executed successfully, followed by a passing synthetic zero-drift demonstration. Real private photos are not in CI.
 
 Example for privately stored, authorized images in the user's own environment:
 
