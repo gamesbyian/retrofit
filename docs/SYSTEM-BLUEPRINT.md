@@ -20,7 +20,7 @@ Retrofit owns projects, local source/reference files, catalog selection, annotat
 | Region editing | Editable masks/soft edges, tightly bounded compositing with identity and drift review | Experimental; provider mask capability must be proven |
 | True 3D/BIM | Calibrated camera, metric room model, registration across views, engineering tools | Deferred; separate evidence, cost and user need |
 
-## Field journey and screen map
+Detailed proposed mobile interactions, modes, failure and screen-reader states are documented in [UX Interactions](UX-INTERACTIONS.md); the provenance-first source/catalog path is in [Catalog Sourcing](CATALOG-SOURCING.md).\n\n## Field journey and screen map
 
 1. **Projects**: current/draft rooms and recent proposals, clear local status; first prototype may open directly into a single room. Later project list must not replace the current draft silently.
 2. **Capture/import**: Photo Picker, optionally camera after feasibility; show privacy notice where appropriate. Copy selected bytes to app-private storage before grant expiry. On cancellation/invalid import, leave draft unchanged.

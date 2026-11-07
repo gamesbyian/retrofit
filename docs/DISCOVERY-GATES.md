@@ -1,6 +1,6 @@
 # Retrofit discovery readiness and implementation-entry gates
 
-**Status:** authoritative *discovery readiness reference*, not a parallel execution queue. Update the single [GitHub issue #1](https://github.com/gamesbyian/retrofit/issues/1) when decisions/proof change. Date: 2026-11-06. Read with [Discovery Research](DISCOVERY-RESEARCH.md), [System Blueprint](SYSTEM-BLUEPRINT.md), [Experiments and Quality](EXPERIMENTS-AND-QUALITY.md). The prototype's product contract is in [draft PR #2](https://github.com/gamesbyian/retrofit/pull/2); avoid treating proposed design as already merged/shipped.
+**Status:** authoritative *discovery readiness reference*, not a parallel execution queue. Update the single [GitHub issue #1](https://github.com/gamesbyian/retrofit/issues/1) when decisions/proof change. Date: 2026-11-06. Read with [Discovery Research](DISCOVERY-RESEARCH.md), [System Blueprint](SYSTEM-BLUEPRINT.md), [UX Interactions](UX-INTERACTIONS.md), [Catalog Sourcing](CATALOG-SOURCING.md), and [Experiments and Quality](EXPERIMENTS-AND-QUALITY.md). The prototype's product contract is in [draft PR #2](https://github.com/gamesbyian/retrofit/pull/2); avoid treating proposed design as already merged/shipped.
 
 ## Current evidence snapshot
 
