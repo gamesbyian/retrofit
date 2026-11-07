@@ -10,6 +10,8 @@
 - Owner demonstration provides conceptual images and independent AI generations with preservation failures. No blinded or controlled causal test has been executed here.
 - Prior-art sources have been read but no competitor installed comparison, salesperson field observation, fully rights-cleared catalog or actual mobile segmentation benchmark has yet been performed.
 
+- **G6 alignment subgate:** [private-only owner-image registration diagnostic](G6-REGISTRATION-DIAGNOSTIC.md) established that original/generation raster heights differ and that sparse near-identity registration leaves possible mask-boundary seams. A synthetic reusable OpenCV diagnostic is under CI qualification; owner-approved region, real alignment acceptance, and visually sound compositing remain **SPIKE NEXT**. No owner image bytes are public.
+
 ## Mandatory before broad substantial implementation
 
 Here, **broad substantial implementation** means starting parallel feature epics, committing to persistent multi-project schema/AI backends/catalog ingestion, or scaling out the architecture. Small reversible, contained prototype fixes, test infrastructure repairs and bounded feasibility spikes may proceed before all gates when their purpose is to acquire evidence.
