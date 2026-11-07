@@ -18,6 +18,8 @@ The repository's next priority is **comprehensive project/market/technology disc
 - [Proposed system blueprint](docs/SYSTEM-BLUEPRINT.md): screens, journeys, spatial concepts, source/reference identity, AYA boundary and modules.
 - [Concrete Android interaction specification](docs/UX-INTERACTIONS.md): screen layouts, explicit placement modes, error states and accessibility.
 - [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.
+- [Five-model manufacturer-source scout](docs/CATALOG-FIVE-MODEL-SCOUT.md): specific equipment sources, model-generation/dimension conflicts, view and license blockers, reusable sourcing alternatives.
+- [One-job field-sales observation protocol](docs/FIELD-WORKFLOW-PROTOCOL.md): brief privacy-respecting process to replace user-workflow assumptions with evidence.
 - [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
 - [Discovery readiness gates](docs/DISCOVERY-GATES.md): explicit research decisions and entry criteria before broad implementation.
 - [Single execution issue #1](https://github.com/gamesbyian/retrofit/issues/1): current priorities/evidence and implementation tracking.
