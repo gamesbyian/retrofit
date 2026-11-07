@@ -6,7 +6,7 @@ The intended user journey is photograph -> mark objects/locations -> choose veri
 
 ## Current project state (2026-11-06)
 
-- [Draft Retrofit photo/marker prototype PR #2](https://github.com/gamesbyian/retrofit/pull/2) provides an unmerged Android foundation with local photo import and marker editing. Build/test CI passed on the draft head; installed workflow is not yet qualified. Catalog, AYA external handoff and image generation are not implemented.
+- [Draft Retrofit photo/marker prototype PR #2](https://github.com/gamesbyian/retrofit/pull/2) provides an unmerged Android foundation with local photo import and marker editing. At prototype head `f6d115a1`, [debug/JVM CI](https://github.com/gamesbyian/retrofit/actions/runs/42325953294) and [Android API 35 emulator qualification](https://github.com/gamesbyian/retrofit/actions/runs/42325953465) passed real Photo Picker cancellation/reentry, exact original-file retention after source deletion and process restart, and a separate marker persistence test. Physical phone, other API levels and accessibility remain unverified. Catalog, AYA external handoff and image generation are not implemented.
 - [AYA spatial composition v1](https://github.com/gamesbyian/AYA/blob/main/docs/spatial/PACKET.md) is the proposed reviewed attachment contract. Its [Android adapter PR #151](https://github.com/gamesbyian/AYA/pull/151) is not assumed merged, installed or proven with real assistants.
 - Owner image experiments suggest that independent architecture/equipment survey overlays can be useful, but strict prompt constraints alone did not prevent unrelated pixel/text changes.
 
@@ -16,7 +16,9 @@ The repository's next priority is **comprehensive project/market/technology disc
 
 - [Discovery research and prior art](docs/DISCOVERY-RESEARCH.md): comparable products, source evidence, unknowns, catalog rights.
 - [Proposed system blueprint](docs/SYSTEM-BLUEPRINT.md): screens, journeys, spatial concepts, source/reference identity, AYA boundary and modules.
-- [Concrete Android interaction specification](docs/UX-INTERACTIONS.md): screen layouts, explicit placement modes, error states and accessibility.\n- [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.\n- [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
+- [Concrete Android interaction specification](docs/UX-INTERACTIONS.md): screen layouts, explicit placement modes, error states and accessibility.
+- [Catalog source and rights specification](docs/CATALOG-SOURCING.md): manufacturer assets, reference angles, provenance and permission boundaries.
+- [Controlled experiments](docs/EXPERIMENTS-AND-QUALITY.md): wireframes, independent first attempts, segmentation, local compositing, image fidelity and real-device/provider acceptance.
 - [Discovery readiness gates](docs/DISCOVERY-GATES.md): explicit research decisions and entry criteria before broad implementation.
 - [Single execution issue #1](https://github.com/gamesbyian/retrofit/issues/1): current priorities/evidence and implementation tracking.
 - [Agent instructions](AGENTS.md), [local skills architecture](skills/CAPABILITY-ARCHITECTURE.md), [Project Inception](skills/project-inception/SKILL.md), and [Android skill](skills/android-app-development/SKILL.md).
