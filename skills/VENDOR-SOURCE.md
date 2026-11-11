@@ -1,9 +1,9 @@
-# Local development skills snapshot
+# Local portable development Skills snapshot
 
-Source: GBIDEVELOPMENT/general-purpose, skills/ directory
+Canonical package: `GBIDEVELOPMENT/general-purpose/skills/`
+Verified source commit: `21b934f147cc52decce4db664c72ed3abff05c4f` (2026-11-10 rollout)
+Source package size: **169 canonical files**. All copied source files are byte-identical to the pinned commit. This provenance file is project-local, not part of the canonical payload.
 
-Verified source commit: `a2adc080cfa2dd535460f952b099a71c6c7c87d2` (merged through https://github.com/GBIDEVELOPMENT/general-purpose/pull/664)
+Use `skills/CAPABILITY-ARCHITECTURE.md` for task-matched routing and `skills/PORTABILITY.md` for installation, update and offline integrity checks. These files and all their supporting references/scripts/tests are local; the canonical repository need not be reachable by the agent.
 
-Imported: 2026-11-06. The 167 canonical package files are copied locally with relative internal navigation, reference procedures, fixtures and tests; earlier 149-file snapshot was superseded. Canonical source access is not required at runtime. Historical external citations remain optional evidence. The installed package has an offline portability checker and an instruction-completeness *triage* tool, neither of which proves actual agent competence.
-
-See [PORTABILITY.md](PORTABILITY.md) and [Operational Completeness Audit](references/operational-completeness-audit.md). Local adaptations remain separate from upstream until deliberately reconciled.
+The host repository's `AGENTS.md`, owner decisions, security/CI policies, source observations and existing specialist Skills take precedence over these advisory portable procedures. Installing Skills does not grant permission for code edits, privileged operations, releases or merges. Existing local adaptations must be reconciled rather than silently overwritten on future syncs.
